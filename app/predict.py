@@ -8,6 +8,7 @@ from preprocessing import clean_raw_data, create_features, prepare_training_data
 from fetch_data import fetch_weather
 from update_weather_data import update_weather_data
 from torch import nn
+import unicodedata
 
 # ----- CONFIG -----
 cities = ["Genève", "Lausanne", "Zurich", "Berne", "Bâle", "Neuchâtel",
@@ -20,6 +21,14 @@ target_columns = [
     "target_windspeed_10m_max",
 ]
 
+def sanitize_city(city: str) -> str:
+    return unicodedata.normalize('NFD', city.lower()).encode('ascii', 'ignore').decode('utf-8').replace(" ", "_")
+
+def get_model_path(relative_path: str) -> str:
+    """Retourne le chemin absolu vers un fichier modèle en partant de app/"""
+    base_dir = os.path.dirname(__file__)
+    return os.path.normpath(os.path.join(base_dir, "..", relative_path))
+
 class WeatherLSTM(nn.Module):
     def __init__(self, input_size, hidden_size=64, num_layers=1, output_size=5):
         super().__init__()
@@ -29,7 +38,6 @@ class WeatherLSTM(nn.Module):
     def forward(self, x):
         out, _ = self.lstm(x)
         return self.fc(out[:, -1])
-
 
 def predict_city(city: str, day_offset: int = 0):
     day_str = "J+1" if day_offset else "J"
@@ -51,14 +59,16 @@ def predict_city(city: str, day_offset: int = 0):
     if X_last.shape[0] == 0:
         raise ValueError(f"Aucune donnée suffisante pour la prédiction {day_str} à {city}")
 
-    safe_city = city.lower().replace(" ", "_")
+    safe_city = sanitize_city(city)
     date_str = datetime.now().strftime("%Y-%m-%d")
 
-    with open("model/best_model_info.json", "r") as f:
+    # Lecture du fichier modèle
+    model_info_path = get_model_path("model/best_model_info.json")
+    with open(model_info_path, "r") as f:
         best_info = json.load(f)
 
     model_name = best_info.get("model_name")
-    model_path = best_info.get("model_path")
+    model_path = get_model_path(best_info.get("model_path"))
 
     if model_name == "cnn_lstm":
         n_total_features = X.shape[1]
@@ -80,9 +90,8 @@ def predict_city(city: str, day_offset: int = 0):
         names = blend_info["models"]
 
         for name in names:
-            path = f"model/{safe_city}_{name}.pkl"
             if name == "cnn":
-                cnn_path = f"model/{safe_city}_cnn.pt"
+                cnn_path = get_model_path(f"model/{safe_city}_cnn.pt")
                 n_total_features = X.shape[1]
                 n_lags = 3
                 if n_total_features % n_lags != 0:
@@ -93,9 +102,11 @@ def predict_city(city: str, day_offset: int = 0):
                 model.eval()
                 X_tensor = torch.tensor(X_last.reshape(1, n_lags, n_features), dtype=torch.float32)
                 preds.append(model(X_tensor).detach().numpy()[0])
-            elif os.path.exists(path):
-                m = joblib.load(path)
-                preds.append(m.predict(X_last)[0])
+            else:
+                path = get_model_path(f"model/{safe_city}_{name}.pkl")
+                if os.path.exists(path):
+                    m = joblib.load(path)
+                    preds.append(m.predict(X_last)[0])
 
         if len(preds) != len(weights):
             print("  Nombre de poids incompatible avec les modèles chargés. Réajustement automatique.")
@@ -115,9 +126,8 @@ def predict_city(city: str, day_offset: int = 0):
     with open(filename, "w") as f:
         json.dump(result, f, indent=2)
 
-    print(f" Prédiction enregistrée dans {filename}")
+    print(f"✅ Prédiction enregistrée dans {filename}")
     return result
-
 
 if __name__ == "__main__":
     import sys
@@ -126,4 +136,4 @@ if __name__ == "__main__":
         try:
             predict_city(city, day_offset=offset)
         except Exception as e:
-            print(f" Erreur pour {city} ({'J+1' if offset else 'J'}) : {e}")
+            print(f"❌ Erreur pour {city} ({'J+1' if offset else 'J'}) : {e}")
