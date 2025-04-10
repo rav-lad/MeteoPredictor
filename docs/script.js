@@ -104,7 +104,7 @@ function updateCityDropdown() {
   config.cities[currentLang].forEach((city, index) => {
     const option = document.createElement('option');
     option.value = config.cities.fr[index]; // Valeur en français pour les fichiers (clé)
-    option.textContent = city; // Texte affiché dans la langue courante
+    option.textContent = city;
     citySelect.appendChild(option);
   });
 }
@@ -134,13 +134,11 @@ async function loadPrediction() {
   `;
 
   try {
-    // Simuler la récupération des données (à remplacer par votre logique réelle)
-    const city = sanitizeCity(cityInput);
     const dateToday = new Date().toISOString().split('T')[0];
     const dateTomorrow = new Date(Date.now() + (24 * 60 * 60 * 1000)).toISOString().split('T')[0];
 
-    const predictionToday = await fetchPrediction(city, dateToday, 'j');
-    const predictionTomorrow = await fetchPrediction(city, dateTomorrow, 'j1');
+    const predictionToday = await fetchPrediction(cityInput, dateToday, 'j');
+    const predictionTomorrow = await fetchPrediction(cityInput, dateTomorrow, 'j1');
 
     displayPredictions({ today: predictionToday, tomorrow: predictionTomorrow });
 
@@ -156,15 +154,16 @@ async function loadPrediction() {
 function sanitizeCity(city) {
   return city
     .toLowerCase()
-    .normalize("NFD")                // décompose les caractères accentués
-    .replace(/[\u0300-\u036f]/g, '') // enlève les accents (ex: é → e)
-    .replace(/[^a-z]/g, '');         // supprime tout ce qui n'est pas une lettre
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z]/g, '');
 }
 
 async function fetchPrediction(city, date, suffix) {
-  const cityKey = sanitizeCity(city); // ex: "Genève" → "geneve"
-  const fileName = `${date}_${suffix}.json`; // ex: 2025-04-10_j.json
-  const filePath = `predictions/${cityKey}/${fileName}`; // predictions/geneve/2025-04-10_j.json
+  const cityKey = sanitizeCity(city);
+  const fileName = `${date}_${suffix}.json`;
+  const filePath = `predictions/${cityKey}/${fileName}`;
+  console.log("Fetching:", filePath); // Debug
 
   try {
     const response = await fetch(filePath);
@@ -177,37 +176,6 @@ async function fetchPrediction(city, date, suffix) {
   } catch (error) {
     throw new Error(error.message);
   }
-}
-
-function displaySimulatedPredictions(data) {
-  const output = document.getElementById('output');
-  output.innerHTML = '';
-  const t = config.translations[currentLang];
-
-  const todayDiv = document.createElement('div');
-  todayDiv.classList.add('forecast-day');
-  todayDiv.innerHTML = `
-    <h3>${t.today}</h3>
-    <p>${t.maxTemp} ${data.today.maxTemp}°C</p>
-    <p>${t.minTemp} ${data.today.minTemp}°C</p>
-    <p>${t.avgTemp} ${data.today.avgTemp}°C</p>
-    <p>${t.wind} ${data.today.windSpeed} km/h</p>
-    <p>${t.rainProb} ${data.today.rainProbability}%</p>
-  `;
-
-  const tomorrowDiv = document.createElement('div');
-  tomorrowDiv.classList.add('forecast-day');
-  tomorrowDiv.innerHTML = `
-    <h3>${t.tomorrow}</h3>
-    <p>${t.maxTemp} ${data.tomorrow.maxTemp}°C</p>
-    <p>${t.minTemp} ${data.tomorrow.minTemp}°C</p>
-    <p>${t.avgTemp} ${data.tomorrow.avgTemp}°C</p>
-    <p>${t.wind} ${data.tomorrow.windSpeed} km/h</p>
-    <p>${t.rainProb} ${data.tomorrow.rainProbability}%</p>
-  `;
-
-  output.appendChild(todayDiv);
-  output.appendChild(tomorrowDiv);
 }
 
 function displayPredictions(data) {
@@ -244,5 +212,5 @@ function displayPredictions(data) {
   output.appendChild(tomorrowDiv);
 }
 
-// Initialize the application
+// Lancer le script à la fin du chargement de la page
 document.addEventListener('DOMContentLoaded', init);
