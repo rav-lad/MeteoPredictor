@@ -190,22 +190,22 @@ function displayPredictions(data) {
   todayDiv.classList.add('forecast-day');
   todayDiv.innerHTML = `
     <h3>${t.today}</h3>
-    <p>${t.maxTemp} ${todayData.maxTemp}°C</p>
-    <p>${t.minTemp} ${todayData.minTemp}°C</p>
-    <p>${t.avgTemp} ${todayData.avgTemp}°C</p>
-    <p>${t.wind} ${todayData.windSpeed} km/h</p>
-    <p>${t.rainProb} ${todayData.rainProbability}%</p>
+    <p>${t.maxTemp} ${todayData.target_temperature_2m_max.toFixed(1)}°C</p>
+    <p>${t.minTemp} ${todayData.target_temperature_2m_min.toFixed(1)}°C</p>
+    <p>${t.avgTemp} ${todayData.target_temperature_2m_mean.toFixed(1)}°C</p>
+    <p>${t.wind} ${todayData.target_windspeed_10m_max.toFixed(1)} km/h</p>
+    <p>${t.rainProb} ${(todayData.target_will_rain * 100).toFixed(0)}%</p>
   `;
 
   const tomorrowDiv = document.createElement('div');
   tomorrowDiv.classList.add('forecast-day');
   tomorrowDiv.innerHTML = `
     <h3>${t.tomorrow}</h3>
-    <p>${t.maxTemp} ${tomorrowData.maxTemp}°C</p>
-    <p>${t.minTemp} ${tomorrowData.minTemp}°C</p>
-    <p>${t.avgTemp} ${tomorrowData.avgTemp}°C</p>
-    <p>${t.wind} ${tomorrowData.windSpeed} km/h</p>
-    <p>${t.rainProb} ${tomorrowData.rainProbability}%</p>
+    <p>${t.maxTemp} ${tomorrowData.target_temperature_2m_max.toFixed(1)}°C</p>
+    <p>${t.minTemp} ${tomorrowData.target_temperature_2m_min.toFixed(1)}°C</p>
+    <p>${t.avgTemp} ${tomorrowData.target_temperature_2m_mean.toFixed(1)}°C</p>
+    <p>${t.wind} ${tomorrowData.target_windspeed_10m_max.toFixed(1)} km/h</p>
+    <p>${t.rainProb} ${(tomorrowData.target_will_rain * 100).toFixed(0)}%</p>
   `;
 
   output.appendChild(todayDiv);
