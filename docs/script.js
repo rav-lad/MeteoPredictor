@@ -78,11 +78,6 @@ let currentLang = "fr";
 function init() {
   setLanguage(currentLang);
   setupEventListeners();
-  // Simuler des données de prédiction pour l'affichage (à remplacer par l'appel API réel)
-  displaySimulatedPredictions({
-    today: { maxTemp: 18, minTemp: 10, avgTemp: 14, rainProbability: 60, windSpeed: 15 },
-    tomorrow: { maxTemp: 22, minTemp: 12, avgTemp: 17, rainProbability: 20, windSpeed: 10 }
-  });
 }
 
 function setLanguage(lang) {
@@ -163,19 +158,21 @@ function sanitizeCity(city) {
 }
 
 async function fetchPrediction(city, date, suffix) {
-  // Simuler la récupération des données (à remplacer par votre logique réelle)
-  // Ici, on retourne des données statiques pour l'exemple visuel
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        maxTemp: Math.floor(Math.random() * 15) + 15,
-        minTemp: Math.floor(Math.random() * 10) + 5,
-        avgTemp: Math.floor(Math.random() * 12) + 8,
-        rainProbability: Math.floor(Math.random() * 101), // Pourcentage aléatoire de 0 à 100
-        windSpeed: Math.floor(Math.random() * 20)
-      });
-    }, 500);
-  });
+  const cityKey = sanitizeCity(city); // ex: "Genève" → "geneve"
+  const day = String(new Date(date).getDate()).padStart(2, '0');
+  const filePath = `predictions/${cityKey}/${day}_${suffix}.json`;
+
+  try {
+    const response = await fetch(filePath);
+    if (!response.ok) {
+      throw new Error(`${filePath}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }
 
 function displaySimulatedPredictions(data) {
