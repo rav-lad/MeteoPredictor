@@ -16,10 +16,19 @@ def fetch_forecast_j_minus_1(city: str) -> pd.DataFrame:
     j_minus_1 = today - timedelta(days=1)
 
     daily_vars = [
-        "temperature_2m_max", "temperature_2m_min", "precipitation_sum",
-        "rain_sum", "showers_sum", "snowfall_sum", "windspeed_10m_max",
-        "windgusts_10m_max", "sunshine_duration", "uv_index_max",
-        "shortwave_radiation_sum", "et0_fao_evapotranspiration", "weathercode"
+        "temperature_2m_max",
+        "temperature_2m_min",
+        "precipitation_sum",
+        "rain_sum",
+        "showers_sum",
+        "snowfall_sum",
+        "windspeed_10m_max",
+        "windgusts_10m_max",
+        "sunshine_duration",
+        "uv_index_max",
+        "shortwave_radiation_sum",
+        "et0_fao_evapotranspiration",
+        "weathercode"
     ]
 
     url = (
@@ -32,24 +41,21 @@ def fetch_forecast_j_minus_1(city: str) -> pd.DataFrame:
 
     response = requests.get(url)
     data = response.json()
-
     if "daily" not in data:
         raise ValueError("Pas de données forecast disponibles.")
-
     df = pd.DataFrame(data["daily"])
     df["city"] = city
     df["time"] = pd.to_datetime(df["time"])
     df = df[df["time"].dt.date == j_minus_1]
-
     return df
 
 def update_weather_data(city: str, min_days_missing: int = 1) -> pd.DataFrame:
     """
-    Met à jour les données météo pour une ville.
-      - Charge les archives (730 jours) en cache ou depuis l’API,
-      - Charge le fichier existant (qui peut contenir J–1 précédent),
-      - Complète avec les nouvelles données depuis l’API archive si nécessaire,
-      - Et ajoute J–1 via forecast si manquant.
+    Met à jour les données météo pour une ville :
+      - Charge les archives (730 jours) depuis cache ou l'API,
+      - Charge le fichier existant (contenant par exemple J–1 d'un précédent update),
+      - Complète avec de nouvelles données archive si nécessaire,
+      - Et ajoute J–1 via forecast si ces données manquent.
     """
     safe_city = city.lower().replace(" ", "_")
     file_path = f"data/_{safe_city}_all.csv"
@@ -65,10 +71,10 @@ def update_weather_data(city: str, min_days_missing: int = 1) -> pd.DataFrame:
     else:
         df_existing = pd.DataFrame()
 
-    # On démarre avec les données existantes
+    # On part des données existantes
     df_combined = df_existing.copy()
 
-    # Compléter avec l'archive si les données jusqu’à J–5 sont manquantes
+    # Compléter avec les données archive si les données jusqu’à J–5 sont manquantes
     if df_existing.empty or df_existing["time"].max().date() < archive_cutoff:
         if not df_existing.empty:
             days_missing = (archive_cutoff - df_existing["time"].max().date()).days
@@ -80,7 +86,7 @@ def update_weather_data(city: str, min_days_missing: int = 1) -> pd.DataFrame:
             df_archive["time"] = pd.to_datetime(df_archive["time"])
             df_combined = pd.concat([df_combined, df_archive], ignore_index=True)
 
-    # Ajouter J–1 à l'aide de forecast si manquant
+    # Ajouter J–1 à l'aide de forecast si nécessaire
     if j_minus_1 not in df_combined["time"].dt.date.values:
         try:
             df_forecast = fetch_forecast_j_minus_1(city)
