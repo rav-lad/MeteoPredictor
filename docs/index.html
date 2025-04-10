@@ -4,59 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prédictions météo</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f2f4f8;
-    }
-    h1 {
-      color: #333;
-    }
-    #lang-select {
-      float: right;
-      margin-top: -40px;
-    }
-    #output {
-      white-space: pre-wrap;
-      margin-top: 20px;
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-    }
-    select, button {
-      padding: 5px 10px;
-      margin-left: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>🌤️ Prédictions météo</h1>
+  <header>
+    <h1 id="title">🌤️ Prédictions météo</h1>
+    <select id="lang-select">
+      <option value="fr">FR</option>
+      <option value="en">EN</option>
+      <option value="de">DE</option>
+      <option value="it">IT</option>
+    </select>
+  </header>
 
-  <label for="city">Choisissez une ville :</label>
-  <select id="city">
-    <option value="Genève">Genève</option>
-    <option value="Lausanne">Lausanne</option>
-    <option value="Zurich">Zurich</option>
-    <option value="Berne">Berne</option>
-    <option value="Bâle">Bâle</option>
-    <option value="Neuchâtel">Neuchâtel</option>
-    <option value="Fribourg">Fribourg</option>
-    <option value="Lugano">Lugano</option>
-    <option value="Lucerne">Lucerne</option>
-    <option value="Sion">Sion</option>
-  </select>
-  <button onclick="loadPrediction()">Voir les prédictions</button>
+  <main>
+    <div class="controls">
+      <label for="city" id="city-label"></label>
+      <select id="city"></select>
+      <button id="loadButton"></button>
+    </div>
 
-  <select id="lang-select" onchange="setLang(this.value)">
-    <option value="fr">FR</option>
-    <option value="en">EN</option>
-    <option value="de">DE</option>
-    <option value="it">IT</option>
-  </select>
-
-  <div id="output">Sélectionnez une ville pour voir les prédictions météo 📊</div>
+    <div id="output">
+      <div class="welcome-message">
+        <p>Bienvenue sur le service de prédictions météo</p>
+        <p>Sélectionnez une ville et cliquez sur "Voir les prédictions"</p>
+      </div>
+    </div>
+  </main>
 
   <script src="script.js"></script>
 </body>
