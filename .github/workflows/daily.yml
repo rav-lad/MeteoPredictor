@@ -24,7 +24,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run daily update
-        run: python daily_update.py
+        run: python app/daily_update.py
 
       - name: Commit predictions
         run: |
