@@ -134,9 +134,9 @@ async function loadPrediction() {
   `;
 
   try {
-    const dateToday = new Date().toISOString().split('T')[0];
-    const dateTomorrow = new Date(Date.now() + (24 * 60 * 60 * 1000)).toISOString().split('T')[0];
-
+    const dateToday = new Date().toLocaleDateString('fr-CA'); // format YYYY-MM-DD
+    const dateTomorrow = new Date(Date.now() + 86400000).toLocaleDateString('fr-CA');
+    
     const predictionToday = await fetchPrediction(cityInput, dateToday, 'j');
     const predictionTomorrow = await fetchPrediction(cityInput, dateTomorrow, 'j1');
 
