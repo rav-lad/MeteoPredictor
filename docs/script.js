@@ -160,10 +160,9 @@ function sanitizeCity(city) {
 }
 
 async function fetchPrediction(city, date, suffix) {
-  const cityKey = sanitizeCity(city);
-  const fileName = `${date}_${suffix}.json`;
-  const filePath = `predictions/${cityKey}/${fileName}`;
-  console.log("Fetching:", filePath); // Debug
+  const cityKey = sanitizeCity(city); // "Genève" → "geneve"
+  const fileName = `${cityKey}_${date}_${suffix}.json`; // "geneve_2025-04-10_j.json"
+  const filePath = `predictions/${fileName}`; // plus de sous-dossier !
 
   try {
     const response = await fetch(filePath);
