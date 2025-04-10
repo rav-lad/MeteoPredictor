@@ -154,13 +154,17 @@ async function loadPrediction() {
 }
 
 function sanitizeCity(city) {
-  return city.toLowerCase().replace(/[^a-z]/g, '');
+  return city
+    .toLowerCase()
+    .normalize("NFD")                // décompose les caractères accentués
+    .replace(/[\u0300-\u036f]/g, '') // enlève les accents (ex: é → e)
+    .replace(/[^a-z]/g, '');         // supprime tout ce qui n'est pas une lettre
 }
 
 async function fetchPrediction(city, date, suffix) {
   const cityKey = sanitizeCity(city); // ex: "Genève" → "geneve"
-  const fileName = `${cityKey}_${date}_${suffix}.json`; // ex: geneve_2025-04-19_j.json
-  const filePath = `predictions/${cityKey}/${fileName}`; // predictions/geneve/geneve_2025-04-19_j.json
+  const fileName = `${date}_${suffix}.json`; // ex: 2025-04-10_j.json
+  const filePath = `predictions/${cityKey}/${fileName}`; // predictions/geneve/2025-04-10_j.json
 
   try {
     const response = await fetch(filePath);
