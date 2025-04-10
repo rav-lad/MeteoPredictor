@@ -10,26 +10,50 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name:  Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Python
+      - name:  Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Install dependencies 
+      - name:  Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name:  Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run daily update
-        run: python app/daily_update.py
+      - name:  Run daily update & predictions
+        run: |
+          echo "Début du pipeline : $(date)"
+          python app/daily_update.py
+          echo "Fin du pipeline : $(date)"
 
-      - name: Commit predictions
+      - name:  Commit raw predictions (dans predictions/)
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'actions@github.com'
           git add predictions/*.json
           git commit -m " Daily predictions: $(date +'%Y-%m-%d')" || echo "Nothing to commit"
+          git push
+
+      - name:  Copier les fichiers dans docs/predictions/
+        run: |
+          mkdir -p docs/predictions
+          cp predictions/*.json docs/predictions/
+
+      - name:  Commit des fichiers pour GitHub Pages
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'actions@github.com'
+          git add docs/predictions/*.json
+          git commit -m " Update web predictions: $(date +'%Y-%m-%d')" || echo "Nothing to commit"
           git push

@@ -11,16 +11,16 @@ async function loadPrediction() {
   
     try {
       const results = await Promise.all(suffixes.map(async (suffix) => {
-        const file = `../predictions/${city}_${date}_${suffix}.json`;
+        const file = `predictions/${city}_${date}_${suffix}.json`;
         const response = await fetch(file);
         if (!response.ok) throw new Error(`Fichier introuvable : ${file}`);
         const data = await response.json();
         return { suffix, data };
       }));
   
-      output.textContent = results.map(r => `📆 ${r.suffix.toUpperCase()} :\n` + JSON.stringify(r.data, null, 2)).join("\n\n");
+      output.textContent = results.map(r => ` ${r.suffix.toUpperCase()} :\n` + JSON.stringify(r.data, null, 2)).join("\n\n");
     } catch (err) {
-      output.textContent = "❌ Erreur : " + err.message;
+      output.textContent = " Erreur : " + err.message;
     }
   }
   
