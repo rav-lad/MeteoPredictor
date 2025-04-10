@@ -159,7 +159,7 @@ function sanitizeCity(city) {
 
 async function fetchPrediction(city, date, suffix) {
   const cityKey = sanitizeCity(city); // ex: "Genève" → "geneve"
-  const day = String(new Date(date).getDate()).padStart(2, '0');
+  const day = new Date(date).getDate();
   const filePath = `predictions/${cityKey}/${day}_${suffix}.json`;
 
   try {
