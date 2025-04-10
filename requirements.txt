@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 pandas
 numpy
 scikit-learn
 joblib
 torch
 requests
+=======
+pandas
+numpy
+scikit-learn
+joblib
+torch
+requests
+>>>>>>> 0bc78d72d44cd291e31a5efb59f8f8361a30d440
