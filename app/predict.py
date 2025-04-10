@@ -33,7 +33,7 @@ class WeatherLSTM(nn.Module):
 
 def predict_city(city: str, day_offset: int = 0):
     day_str = "J+1" if day_offset else "J"
-    print(f"\n📍 Prédiction pour {city} ({day_str})")
+    print(f"\n Prédiction pour {city} ({day_str})")
 
     df = update_weather_data(city)
     df_clean = clean_raw_data(df)
@@ -98,7 +98,7 @@ def predict_city(city: str, day_offset: int = 0):
                 preds.append(m.predict(X_last)[0])
 
         if len(preds) != len(weights):
-            print("⚠️  Nombre de poids incompatible avec les modèles chargés. Réajustement automatique.")
+            print("  Nombre de poids incompatible avec les modèles chargés. Réajustement automatique.")
             weights = [1.0] * len(preds)
 
         Y_pred = np.average(preds, axis=0, weights=weights)
@@ -115,7 +115,7 @@ def predict_city(city: str, day_offset: int = 0):
     with open(filename, "w") as f:
         json.dump(result, f, indent=2)
 
-    print(f"✅ Prédiction enregistrée dans {filename}")
+    print(f" Prédiction enregistrée dans {filename}")
     return result
 
 
@@ -126,4 +126,4 @@ if __name__ == "__main__":
         try:
             predict_city(city, day_offset=offset)
         except Exception as e:
-            print(f"❌ Erreur pour {city} ({'J+1' if offset else 'J'}) : {e}")
+            print(f" Erreur pour {city} ({'J+1' if offset else 'J'}) : {e}")
