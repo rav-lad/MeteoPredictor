@@ -1,0 +1,4 @@
+time,temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum,showers_sum,snowfall_sum,windspeed_10m_max,windgusts_10m_max,sunshine_duration,uv_index_max,shortwave_radiation_sum,et0_fao_evapotranspiration,weathercode,city
+2025-04-08,14.9,2.1,0.0,0.0,0.0,0.0,7.6,22.0,44070.13,,22.59,3.15,2.0,Neuchâtel
+2025-04-09,6.6,6.1,,,,,4.8,11.2,,,,,3.0,Neuchâtel
+2025-04-10,,,,,,,,,,,,,,Neuchâtel

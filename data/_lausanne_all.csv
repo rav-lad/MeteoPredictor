@@ -730,3 +730,5 @@ time,temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum,showers_su
 2025-04-06,14.5,4.9,0.0,0.0,0.0,0.0,28.0,58.0,42464.33,,20.59,2.84,3.0,Lausanne
 2025-04-07,4.1,2.7,,,,,8.9,21.2,,,,,0.0,Lausanne
 2025-04-08,,,,,,,,,,,,,,Lausanne
+2025-04-09,6.7,6.6,,,,,2.5,8.3,,,,,3.0,Lausanne
+2025-04-10,,,,,,,,,,,,,,Lausanne

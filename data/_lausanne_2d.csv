@@ -1,0 +1,4 @@
+time,temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum,showers_sum,snowfall_sum,windspeed_10m_max,windgusts_10m_max,sunshine_duration,uv_index_max,shortwave_radiation_sum,et0_fao_evapotranspiration,weathercode,city
+2025-04-08,16.1,5.3,0.0,0.0,0.0,0.0,6.5,18.7,43947.15,,22.66,3.25,3.0,Lausanne
+2025-04-09,6.7,6.6,,,,,2.5,8.3,,,,,3.0,Lausanne
+2025-04-10,,,,,,,,,,,,,,Lausanne

@@ -1,0 +1,4 @@
+time,temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum,showers_sum,snowfall_sum,windspeed_10m_max,windgusts_10m_max,sunshine_duration,uv_index_max,shortwave_radiation_sum,et0_fao_evapotranspiration,weathercode,city
+2025-04-08,5.6,-5.7,,,,,22.7,40.7,,,,,2.0,Berne
+2025-04-09,,,,,,,,,,,,,,Berne
+2025-04-10,,,,,,,,,,,,,,Berne

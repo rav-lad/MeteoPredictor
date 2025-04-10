@@ -1,0 +1,4 @@
+time,temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum,showers_sum,snowfall_sum,windspeed_10m_max,windgusts_10m_max,sunshine_duration,uv_index_max,shortwave_radiation_sum,et0_fao_evapotranspiration,weathercode,city
+2025-04-08,13.5,3.2,0.0,0.0,0.0,0.0,23.5,48.6,43152.02,,19.78,3.08,3.0,Bâle
+2025-04-09,6.3,6.1,,,,,10.2,18.0,,,,,0.0,Bâle
+2025-04-10,,,,,,,,,,,,,,Bâle
