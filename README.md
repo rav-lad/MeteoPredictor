@@ -1,6 +1,4 @@
 
-
-```markdown
 # ☁️ MeteoPredictor
 
 **MeteoPredictor** is a weather forecasting tool powered by **machine learning**, designed to predict key weather variables such as temperature, humidity, and precipitation. This project serves as a foundational block for larger systems aiming to anticipate energy consumption based on weather patterns.
@@ -21,14 +19,14 @@
 ##  Models & Methodology
 
 -  **Main model**: [CatBoost](https://catboost.ai/),[XGBoost],[LigthGBM], [CNN] – highly effective for tabular and time series data.
-- ⚙ **Feature Engineering**: includes normalization, time-based encoding, and relevant variable selection.
+-  **Feature Engineering**: includes normalization, time-based encoding, and relevant variable selection.
 -  **Evaluation Metrics**: RMSE, MAE, R².
 
 ---
 
 ##  Project Structure
 
-```
+```bash
 MeteoPredictor/
 ├── app/                 # Core application logic
 ├── data/                # Raw and preprocessed datasets
@@ -88,7 +86,7 @@ Feel free to fork the repo and submit a pull request.
 
 ---
 
-## 🙋‍♂ Author
+##  Author
 
 Created by **rav-lad** – check out more at [https://github.com/rav-lad](https://github.com/rav-lad)
 
