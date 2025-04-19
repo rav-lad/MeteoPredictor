@@ -1,61 +1,95 @@
-MeteoPredictor
-🌦️ Overview
-MeteoPredictor is a machine learning-based weather forecasting tool designed to predict key meteorological variables such as temperature, humidity, and precipitation. Leveraging historical weather data and advanced modeling techniques, this project aims to provide accurate and reliable forecasts.
 
-This repository serves as a foundational step towards a broader initiative focused on analyzing and predicting energy consumption patterns, where weather conditions play a pivotal role.
 
-🔍 Features
-Data Acquisition & Preprocessing: Efficient handling of raw weather data, including cleaning, normalization, and feature engineering.
+```markdown
+# ☁️ MeteoPredictor
 
-Model Training: Implementation of robust machine learning models (e.g., CatBoost) tailored for time-series forecasting.
+**MeteoPredictor** is a weather forecasting tool powered by **machine learning**, designed to predict key weather variables such as temperature, humidity, and precipitation. This project serves as a foundational block for larger systems aiming to anticipate energy consumption based on weather patterns.
 
-Evaluation Metrics: Comprehensive assessment of model performance using metrics like RMSE, MAE, and R².
+---
 
-Visualization: Interactive plots and charts to visualize predictions against actual observations.
+##  Project Goals
 
-Modular Architecture: Organized codebase facilitating easy modifications and extensions.
+- Deliver **accurate and robust weather forecasts** using historical data.
+- Act as a core module for energy consumption analysis based on weather.
+- Experiment with advanced techniques for **time series forecasting**.
+- Web App Preview:
+   Built with simple HTML/CSS/JavaScript and hosted via GitHub Pages
+   Displays forecast results for major Swiss cities
+   Forecasts are updated daily for: Today (J) and Tomorrow (J+1)
+---
 
- Project Structure
-```bash
-MeteoPredictor/
-├── app/                 # Application source code
-├── data/                # Raw and processed datasets
-├── docs/                # Documentation and related resources
-├── model/               # Saved machine learning models
-├── notebooks/           # Jupyter notebooks for exploration and analysis
-├── predictions/         # Generated prediction outputs
-├── requirements.txt     # Project dependencies
-└── README.md            # Project overview and instructions
+##  Models & Methodology
+
+-  **Main model**: [CatBoost](https://catboost.ai/),[XGBoost],[LigthGBM], [CNN] – highly effective for tabular and time series data.
+- ⚙ **Feature Engineering**: includes normalization, time-based encoding, and relevant variable selection.
+-  **Evaluation Metrics**: RMSE, MAE, R².
+
+---
+
+##  Project Structure
+
 ```
-Getting Started
-Prerequisites
-Ensure you have Python 3.7 or higher installed. It's recommended to use a virtual environment to manage dependencies.
+MeteoPredictor/
+├── app/                 # Core application logic
+├── data/                # Raw and preprocessed datasets
+├── docs/                # Project documentation
+├── model/               # Trained model files (checkpoints)
+├── notebooks/           # Exploratory notebooks & prototypes
+├── predictions/         # Forecasting outputs
+├── requirements.txt     # Python dependencies
+└── README.md            # This file
+```
 
-Installation
-Clone the repository:
+---
+
+##  Getting Started
+
+###  Prerequisites
+
+- Python 3.7 or higher
+- (Recommended) Use a virtual environment
+
+###  Installation
 
 ```bash
 git clone https://github.com/rav-lad/MeteoPredictor.git
 cd MeteoPredictor
-```
-Install dependencies:
-```bash
+python -m venv env
+source env/bin/activate  # On Windows: env\Scripts\activate
 pip install -r requirements.txt
-Run the application:
 ```
-Navigate to the app/ directory and execute the main script:
 
-```bash
-python main.py
+
+
+##  Datasets
+
+The project uses historical weather data including features like:
+- Temperature (min, max, apparent)
+- Precipitation, snow, and rain levels
+- Wind speed and direction
+- Solar radiation and evapotranspiration
+
+>  This project uses data from **[Open-Meteo](https://open-meteo.com/)** – a free and open API providing historical and forecast weather data.
+
+
+---
+
+##  Results & Evaluation
+
+Include example predictions, model performance metrics (e.g., RMSE, R²), and a visual comparison between predicted and actual values.
+
+---
+
+##  Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+Feel free to fork the repo and submit a pull request.
+
+---
+
+## 🙋‍♂ Author
+
+Created by **rav-lad** – check out more at [https://github.com/rav-lad](https://github.com/rav-lad)
+
 ```
-(Note: Replace main.py with the actual entry-point script if different.)
-
-
- Configuration
-Configuration files and parameters can be adjusted in the config/ directory to tailor the model to specific datasets or forecasting requirements.
-
- Future Work
-This project lays the groundwork for an upcoming initiative focused on energy consumption prediction. By integrating weather forecasts with energy usage data, the goal is to develop models that can anticipate energy demands, optimize resource allocation, and support sustainable energy management practices.
-
- Contributing
-Contributions are welcome! If you'd like to enhance the project, please fork the repository and submit a pull request. For major changes, open an issue first to discuss proposed modifications.
